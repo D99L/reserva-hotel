@@ -11,9 +11,10 @@
     <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold"><i class="fas fa-hotel mr-2"></i>Sistema de Reservas</h1>
-            <div class="space-x-4">
-                <a href="/" class="hover:text-blue-300 font-semibold px-2 py-1 rounded"><i class="fas fa-user mr-1"></i> Vista Turista</a>
-                <a href="/admin" class="hover:text-blue-300 font-semibold px-2 py-1 rounded bg-blue-800"><i class="fas fa-user-tie mr-1"></i> Vista Admin</a>
+            <div class="space-x-4 flex items-center">
+                <a href="/admin" class="hover:text-blue-300 font-semibold px-2 py-1 rounded bg-blue-800"><i class="fas fa-user-tie mr-1"></i> Panel de Admin</a>
+                <span class="text-sm border-l pl-4 ml-2 border-blue-700">Hola, <%= usuario.nombre %></span>
+                <a href="/logout" class="hover:text-red-300 text-sm font-semibold px-2 py-1 rounded text-red-200"><i class="fas fa-sign-out-alt"></i> Salir</a>
             </div>
         </div>
     </nav>
@@ -29,8 +30,8 @@
                     <h3 class="font-bold">Administrador</h3>
                 </div>
                 <ul class="space-y-2">
-                    <li><a href="#" class="block py-2 px-4 bg-blue-600 rounded"><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</a></li>
-                    <li><a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-book mr-2"></i> Reservas</a></li>
+                    <li><a href="/admin" class="block py-2 px-4 bg-blue-600 rounded"><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</a></li>
+                    <li><a href="/admin/habitaciones" class="block py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-bed mr-2"></i> Habitaciones</a></li>
                 </ul>
             </div>
 
@@ -39,10 +40,22 @@
                     <h2 class="text-2xl font-bold text-gray-800">Panel de Control - Reservas</h2>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
                     <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-500">
                         <h4 class="text-gray-500 text-sm font-bold uppercase">Total Reservas</h4>
                         <span class="text-2xl font-bold text-gray-800"><%= reservas.length %></span>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded border-l-4 border-green-500">
+                        <h4 class="text-gray-500 text-sm font-bold uppercase">Ingresos Totales</h4>
+                        <span class="text-2xl font-bold text-gray-800">$<%= ingresosTotales.toLocaleString('es-CL') %></span>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded border-l-4 border-yellow-500">
+                        <h4 class="text-gray-500 text-sm font-bold uppercase">Reservas Pendientes</h4>
+                        <span class="text-2xl font-bold text-gray-800"><%= reservasPendientes %></span>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded border-l-4 border-purple-500">
+                        <h4 class="text-gray-500 text-sm font-bold uppercase">Tasa Ocupación</h4>
+                        <span class="text-2xl font-bold text-gray-800"><%= tasaOcupacion %>%</span>
                     </div>
                 </div>
 
@@ -56,6 +69,7 @@
                                 <th class="py-3 px-4 border-b">Fechas</th>
                                 <th class="py-3 px-4 border-b">Estado</th>
                                 <th class="py-3 px-4 border-b">Total</th>
+                                <th class="py-3 px-4 border-b">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600">
@@ -73,11 +87,34 @@
                                 <td class="py-3 px-4 border-b">
                                     <% if(res.estado === 'Confirmada') { %>
                                         <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full"><%= res.estado %></span>
+                                    <% } else if(res.estado === 'Rechazada' || res.estado === 'Cancelada') { %>
+                                        <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full"><%= res.estado %></span>
                                     <% } else { %>
                                         <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded-full"><%= res.estado %></span>
                                     <% } %>
                                 </td>
                                 <td class="py-3 px-4 border-b">$<%= res.total.toLocaleString('es-CL') %></td>
+                                <td class="py-3 px-4 border-b">
+                                    <% if(res.estado === 'Pendiente') { %>
+                                        <div class="flex gap-2">
+                                            <form action="/admin/reserva/<%= res.reserva_id %>/estado" method="POST" class="m-0">
+                                                <input type="hidden" name="estado" value="Confirmada">
+                                                <input type="hidden" name="habitacion_id" value="<%= res.habitacion_id %>">
+                                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded" title="Confirmar"><i class="fas fa-check"></i></button>
+                                            </form>
+                                            <form action="/admin/reserva/<%= res.reserva_id %>/estado" method="POST" class="m-0">
+                                                <input type="hidden" name="estado" value="Rechazada">
+                                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded" title="Rechazar"><i class="fas fa-times"></i></button>
+                                            </form>
+                                        </div>
+                                    <% } else if(res.estado === 'Confirmada') { %>
+                                        <form action="/admin/reserva/<%= res.reserva_id %>/estado" method="POST" class="m-0">
+                                            <input type="hidden" name="estado" value="Cancelada">
+                                            <input type="hidden" name="habitacion_id" value="<%= res.habitacion_id %>">
+                                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded" title="Cancelar Reserva">Cancelar</button>
+                                        </form>
+                                    <% } %>
+                                </td>
                             </tr>
                             <% }); %>
                         </tbody>
