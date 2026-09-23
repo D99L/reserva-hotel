@@ -89,5 +89,5 @@ app.get('/admin', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(\`Servidor ejecutándose en http://localhost:\${port}\`);
+    console.log(`Servidor ejecutándose en http://localhost:${port}`);
 });
