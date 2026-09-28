@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Habitaciones - Sistema de Reservas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-blue-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold"><i class="fas fa-hotel mr-2"></i>Sistema de Reservas</h1>
+            <div class="space-x-4 flex items-center">
+                <a href="/admin" class="hover:text-blue-300 font-semibold px-2 py-1 rounded bg-blue-800"><i class="fas fa-user-tie mr-1"></i> Panel de Admin</a>
+                <span class="text-sm border-l pl-4 ml-2 border-blue-700">Hola, <%= usuario.nombre %></span>
+                <a href="/logout" class="hover:text-red-300 text-sm font-semibold px-2 py-1 rounded text-red-200"><i class="fas fa-sign-out-alt"></i> Salir</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="p-6 container mx-auto">
+        <div class="flex flex-col md:flex-row gap-6">
+            
+            <div class="w-full md:w-64 bg-gray-800 text-white rounded-lg shadow-lg p-4">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gray-600 rounded-full mx-auto flex items-center justify-center mb-2">
+                        <i class="fas fa-user-shield text-3xl"></i>
+                    </div>
+                    <h3 class="font-bold">Administrador</h3>
+                </div>
+                <ul class="space-y-2">
+                    <li><a href="/admin" class="block py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</a></li>
+                    <li><a href="/admin/habitaciones" class="block py-2 px-4 bg-blue-600 rounded"><i class="fas fa-bed mr-2"></i> Habitaciones</a></li>
+                </ul>
+            </div>
+
+            <div class="flex-1 space-y-6">
+                <!-- Formulario Nueva Habitación -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Añadir Habitación</h2>
+                    <form action="/admin/habitaciones" method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2">Hotel</label>
+                            <select name="hotel_id" class="w-full border rounded p-2" required>
+                                <% hoteles.forEach(function(hotel) { %>
+                                    <option value="<%= hotel.hotel_id %>"><%= hotel.nombre %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2">Número</label>
+                            <input type="text" name="numero" class="w-full border rounded p-2" required placeholder="Ej: 101">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2">Tipo</label>
+                            <select name="tipo" class="w-full border rounded p-2" required>
+                                <option value="Simple">Simple</option>
+                                <option value="Doble">Doble</option>
+                                <option value="Suite">Suite</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2">Capacidad</label>
+                            <input type="number" name="capacidad" class="w-full border rounded p-2" required min="1">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2">Precio ($)</label>
+                            <input type="number" name="precio" class="w-full border rounded p-2" required min="0">
+                        </div>
+                        <div class="sm:col-span-2 flex justify-end">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded"><i class="fas fa-plus mr-2"></i> Añadir Habitación</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de Habitaciones -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Lista de Habitaciones</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700">
+                                    <th class="py-3 px-4 border-b">ID</th>
+                                    <th class="py-3 px-4 border-b">Hotel</th>
+                                    <th class="py-3 px-4 border-b">Número</th>
+                                    <th class="py-3 px-4 border-b">Tipo</th>
+                                    <th class="py-3 px-4 border-b">Capacidad</th>
+                                    <th class="py-3 px-4 border-b">Precio</th>
+                                    <th class="py-3 px-4 border-b">Estado</th>
+                                    <th class="py-3 px-4 border-b">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600">
+                                <% habitaciones.forEach(function(hab) { %>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b"><%= hab.habitacion_id %></td>
+                                    <td class="py-3 px-4 border-b font-bold"><%= hab.hotel_nombre %></td>
+                                    <td class="py-3 px-4 border-b"><%= hab.numero %></td>
+                                    <td class="py-3 px-4 border-b"><%= hab.tipo %></td>
+                                    <td class="py-3 px-4 border-b"><%= hab.capacidad %> personas</td>
+                                    <td class="py-3 px-4 border-b">$<%= hab.precio.toLocaleString('es-CL') %></td>
+                                    <td class="py-3 px-4 border-b">
+                                        <% if(hab.estado === 'Disponible') { %>
+                                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-full"><%= hab.estado %></span>
+                                        <% } else { %>
+                                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded-full"><%= hab.estado %></span>
+                                        <% } %>
+                                    </td>
+                                    <td class="py-3 px-4 border-b">
+                                        <form action="/admin/habitaciones/<%= hab.habitacion_id %>/delete" method="POST" class="m-0" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta habitación?');">
+                                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
