@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Video - Semana 7</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 40px 20px;
+            color: #334155;
+        }
+        
+        .slide {
+            background-color: #ffffff;
+            max-width: 1400px;
+            margin: 0 auto 60px auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 85vh;
+        }
+
+        .header {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-number {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-right: 20px;
+        }
+
+        h1 { margin: 0; font-size: 2rem; font-weight: 600; }
+        h2 { color: #0f172a; font-size: 1.8rem; margin-top: 0; margin-bottom: 15px;}
+        
+        .content-box {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .visual-area {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto;
+            max-height: 70vh;
+            width: 100%;
+        }
+
+        .big-icon { font-size: 5rem; margin-bottom: 10px; }
+        
+        .image-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .image-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            flex: 1;
+        }
+
+        .image-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: #334155;
+            text-transform: uppercase;
+        }
+
+        .image-card img, .visual-area > img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .success-badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        
+        .link-badge {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 15px;
+            border: 1px solid #c7d2fe;
+            word-break: break-all;
+        }
+
+        .diagram-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 20px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- DIAPOSITIVA 1: INTRODUCCIÓN -->
+    <div class="slide">
+        <div class="header">
+            <div class="header-number">1</div>
+            <h1>Introducción</h1>
+        </div>
+        <div class="content-box">
+            <div class="visual-area" style="justify-content: center;">
+                <div class="big-icon">🏨</div>
+                <h2>Sistema de Reservas de Hotel</h2>
+                <h3 style="color:#64748b; font-weight: 400;">Avances del Prototipo Funcional - Semana 7</h3>
+                <p style="font-size: 1.2rem; margin-top: 30px;"><strong>Equipo de Desarrollo:</strong> Adolfo Leal</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIAPOSITIVA 2: AGILE & GITHUB -->
+    <div class="slide">
+        <div class="header">
+            <div class="header-number">2</div>
+            <h1>Gestión del Proyecto y Versionamiento</h1>
+        </div>
+        <div class="content-box">
+            <div class="visual-area">
+                
+                <div class="image-container" style="margin-bottom: 15px;">
+                    <div class="image-card">
+                        <h3>Tablero Scrum (Trello)</h3>
+                        <img src="trello_s7.png" alt="Captura de Trello">
+                    </div>
+                    <div class="image-card">
+                        <h3>Repositorio Oficial (GitHub)</h3>
+                        <img src="github_s7.png" alt="Captura de GitHub">
+                    </div>
+                </div>
+
+                <div class="success-badge">✓ Tareas en 'Hecho' con evidencias integradas</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIAPOSITIVA 3: PROTOTIPO -->
+    <div class="slide">
+        <div class="header">
+            <div class="header-number">3</div>
+            <h1>Demostración del Prototipo</h1>
+        </div>
+        <div class="content-box">
+            <div class="visual-area">
+                <h2>Avance de Vistas Dinámicas (EJS)</h2>
+                
+                <div class="image-container" style="margin-bottom: 15px;">
+                    <div class="image-card">
+                        <h3>Vista Turista Integrada</h3>
+                        <img src="frontend_turista.png" alt="Vista Turista">
+                    </div>
+                    <div class="image-card">
+                        <h3>Flujo de Checkout y Reservas</h3>
+                        <img src="checkout_page.png" alt="Checkout Page">
+                    </div>
+                </div>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+                        flowchart LR
+                            Browser(["Front-End"])
+                            EJS["Vistas EJS"]
+                            Node["Back-End (Node/Express)"]
+                            BD[("SQLite")]
+                            Browser <--> EJS
+                            EJS <--> Node
+                            Node <--> BD
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIAPOSITIVA 4: TESTING -->
+    <div class="slide">
+        <div class="header">
+            <div class="header-number">4</div>
+            <h1>Planilla de Testing y Calidad</h1>
+        </div>
+        <div class="content-box">
+            <div class="visual-area">
+                <div class="big-icon">📊</div>
+                <h2>Validación Funcional</h2>
+                <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 1.1rem; text-align: left; width: 40%;">
+                    ✅ Consultas por Fecha<br><br>
+                    ✅ Consultas por Rango<br><br>
+                    ✅ Consultas por Capacidad<br><br>
+                    ✅ Flujo de Inicio de Sesión
+                </div>
+                <div class="success-badge">✓ 100% de Pruebas Aprobadas (DOD)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIAPOSITIVA 5: CIERRE -->
+    <div class="slide">
+        <div class="header">
+            <div class="header-number">5</div>
+            <h1>Cierre de Entrega</h1>
+        </div>
+        <div class="content-box">
+            <div class="visual-area" style="justify-content: center;">
+                <div class="big-icon">📦</div>
+                <h2>Entrega Finalizada</h2>
+                <div style="text-align: left; background: white; padding: 30px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 1.3rem;">
+                    <div>✅ <strong>Repositorio y Trello al día</strong></div>
+                    <div style="margin-top: 15px;">✅ <strong>Testing Funcional Aprobado</strong></div>
+                    <div style="margin-top: 15px;">✅ <strong>Prototipo Integrado y Desplegado Localmente</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
