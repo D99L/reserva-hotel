@@ -54,6 +54,69 @@ app.use((req, res, next) => {
     next();
 });
 
+// --- EXTERNAL API INTEGRATION ---
+// Implementación de Web Service Externo (API de Tipo de Cambio)
+// Se provee un endpoint para obtener el tipo de cambio de CLP a otras monedas con validación y manejo de errores.
+app.get('/api/exchange-rate', async (req, res) => {
+    try {
+        const baseCurrency = req.query.base || 'CLP';
+        const targetCurrency = req.query.target;
+        
+        // Payload validation
+        if (!targetCurrency) {
+            return res.status(400).json({
+                success: false,
+                message: 'Bad Request: Missing target currency (e.g., target=USD).'
+            });
+        }
+        
+        if (typeof targetCurrency !== 'string' || targetCurrency.length !== 3) {
+            return res.status(400).json({
+                success: false,
+                message: 'Bad Request: Target currency must be a 3-letter code (e.g., USD, EUR).'
+            });
+        }
+
+        // Fetching from external Web Service
+        const apiUrl = `https://api.exchangerate-api.com/v4/latest/${baseCurrency.toUpperCase()}`;
+        
+        // Node 18+ uses native fetch
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`External API returned status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Check if target currency exists in the rates
+        const rate = data.rates[targetCurrency.toUpperCase()];
+        if (!rate) {
+            return res.status(404).json({
+                success: false,
+                message: `Not Found: Exchange rate for target currency '${targetCurrency.toUpperCase()}' not available.`
+            });
+        }
+        
+        // Proper HTTP response management
+        return res.status(200).json({
+            success: true,
+            base: baseCurrency.toUpperCase(),
+            target: targetCurrency.toUpperCase(),
+            rate: rate,
+            last_updated: data.date
+        });
+
+    } catch (error) {
+        // Robust error handling
+        console.error('Error fetching exchange rate from external API:', error.message);
+        return res.status(502).json({
+            success: false,
+            message: 'Bad Gateway: Failed to fetch data from the external currency service. Please try again later.'
+        });
+    }
+});
+
 // --- RUTAS ---
 
 // Login

@@ -50,7 +50,18 @@
 
             <!-- Resultados -->
             <div class="p-6">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800">Habitaciones Disponibles</h3>
+                <div id="api-error-container"></div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Habitaciones Disponibles</h3>
+                    <div class="flex items-center">
+                        <label for="currency-selector" class="mr-2 text-sm font-medium text-gray-700">Moneda:</label>
+                        <select id="currency-selector" class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border">
+                            <option value="CLP">CLP ($)</option>
+                            <option value="USD">USD (US$)</option>
+                            <option value="EUR">EUR (€)</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     
                     <% habitaciones.forEach(function(hab) { %>
@@ -76,7 +87,7 @@
                             </div>
                             <div class="mt-4 flex justify-between items-end border-t pt-4">
                                 <div>
-                                    <span class="text-2xl font-bold text-blue-600">$<%= hab.precio.toLocaleString('es-CL') %></span><span class="text-sm text-gray-500">/noche</span>
+                                    <span class="text-2xl font-bold text-blue-600"><span class="currency-symbol">$</span><span class="price-amount" data-clp="<%= hab.precio %>"><%= hab.precio.toLocaleString('es-CL') %></span></span><span class="text-sm text-gray-500">/noche</span>
                                 </div>
                                 <% if(hab.estado === 'Disponible') { %>
                                     <form action="/reservar" method="POST" class="m-0 flex flex-col gap-2">
@@ -105,5 +116,65 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currencySelect = document.getElementById('currency-selector');
+            const priceElements = document.querySelectorAll('.price-amount');
+            const currencySymbols = document.querySelectorAll('.currency-symbol');
+            const errorContainer = document.getElementById('api-error-container');
+
+            currencySelect.addEventListener('change', async (e) => {
+                const target = e.target.value;
+                errorContainer.innerHTML = '';
+                
+                if (target === 'CLP') {
+                    priceElements.forEach(el => {
+                        const clp = parseInt(el.getAttribute('data-clp'));
+                        el.textContent = clp.toLocaleString('es-CL');
+                    });
+                    currencySymbols.forEach(el => el.textContent = '$');
+                    return;
+                }
+
+                try {
+                    // UI Feedback: disable selector while loading
+                    currencySelect.disabled = true;
+                    
+                    const response = await fetch(`/api/exchange-rate?target=${target}`);
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || `Error ${response.status}`);
+                    }
+                    
+                    if (data.success && data.rate) {
+                        const symbol = target === 'USD' ? 'US$' : (target === 'EUR' ? '€' : target);
+                        priceElements.forEach(el => {
+                            const clp = parseInt(el.getAttribute('data-clp'));
+                            const converted = clp * data.rate;
+                            el.textContent = converted.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        });
+                        currencySymbols.forEach(el => el.textContent = symbol);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    errorContainer.innerHTML = `
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                            <strong>Error al obtener tipo de cambio:</strong> ${error.message}
+                        </div>
+                    `;
+                    // Revert to CLP on error
+                    currencySelect.value = 'CLP';
+                    priceElements.forEach(el => {
+                        const clp = parseInt(el.getAttribute('data-clp'));
+                        el.textContent = clp.toLocaleString('es-CL');
+                    });
+                    currencySymbols.forEach(el => el.textContent = '$');
+                } finally {
+                    currencySelect.disabled = false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
