@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Presentación EFT - Semana 9 | Sistema de Reserva de Hotel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-light: #38bdf8;
+            --accent: #22c55e;
+            --dark-bg: #090d16;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --border-glow: rgba(56, 189, 248, 0.35);
+        }
+        
+        body { background-color: var(--dark-bg); }
+        .reveal { font-family: 'Open Sans', sans-serif; color: #f1f5f9; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: 'Montserrat', sans-serif; font-weight: 800; text-transform: none; }
+        .reveal h2 { color: var(--primary-light); font-size: 2.2em; text-shadow: 0 4px 20px rgba(2, 132, 199, 0.4); margin-bottom: 25px; }
+        .reveal h3 { color: #e2e8f0; font-size: 1.4em; }
+
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 30px 40px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .row { display: flex; align-items: stretch; justify-content: center; gap: 30px; width: 100%; margin-top: 20px; }
+        .col { flex: 1; text-align: left; }
+
+        .badge-list { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+        .badge {
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.65em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+        .badge.green { background: linear-gradient(135deg, #16a34a, #22c55e); }
+        .badge.purple { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+
+        .feature-box {
+            background: rgba(30, 41, 59, 0.6);
+            border-left: 4px solid var(--primary-light);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+        .feature-box:hover { transform: translateX(8px); }
+        .feature-box h4 { margin: 0 0 6px 0; color: #fff; font-size: 1.05em; display: flex; align-items: center; gap: 10px; }
+        .feature-box p { margin: 0; font-size: 0.85em; color: #94a3b8; line-height: 1.4; }
+
+        .img-preview {
+            width: 100%;
+            border-radius: 14px;
+            border: 2px solid var(--border-glow);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 0.4s ease;
+        }
+        .img-preview:hover { transform: scale(1.03); }
+
+        .metric-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .metric-value { font-size: 2.2em; font-weight: 900; color: var(--primary-light); margin-bottom: 4px; font-family: 'Montserrat', sans-serif; }
+        .metric-label { font-size: 0.8em; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+
+        .timer-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            padding: 4px 14px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- SLIDE 1: PORTADA -->
+            <section data-background-image="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80" data-background-opacity="0.25">
+                <div class="glass-card" style="display: inline-block; max-width: 900px;">
+                    <div class="timer-tag"><i class="fa-solid fa-clock"></i> TIEMPO TOTAL: 10:00 MINUTOS</div>
+                    <div class="badge-list" style="justify-content: center;">
+                        <span class="badge"><i class="fa-solid fa-graduation-cap"></i> DUOC UC</span>
+                        <span class="badge purple">EVALUACIÓN FINAL TRANSVERSAL (EFT)</span>
+                        <span class="badge green">SEMANA 9</span>
+                    </div>
+                    <h1 style="font-size: 2.4em; margin-bottom: 10px; color: #ffffff;">Sistema Web de Reserva de Hotel</h1>
+                    <h3 style="font-weight: 400; color: var(--primary-light); margin-bottom: 25px;">Ingeniería de Software (PRY3211)</h3>
+                    <hr style="border: none; border-top: 1px solid var(--border-glow); margin: 20px auto; width: 60%;">
+                    <p style="font-size: 0.9em; margin-bottom: 6px;"><strong>Estudiante:</strong> Adolfo Leal Lara</p>
+                    <p style="font-size: 0.85em; color: #94a3b8; margin-bottom: 6px;"><strong>Carrera:</strong> Analista Programador Computacional</p>
+                    <p style="font-size: 0.85em; color: #94a3b8;"><strong>Docente Guía:</strong> Jorge Antonio Canales Soto</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: CONTEXTO Y ALCANCE -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 00:00 - 01:15</div>
+                <h2>Contexto y Solución del Problema</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-hotel" style="color: #38bdf8;"></i> Problemática de Negocio</h4>
+                            <p>Procesos manuales de reserva, falta de visibilidad en tiempo real de disponibilidad de habitaciones y ausencia de conversión cambiaria para turistas internacionales.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-bullseye" style="color: #22c55e;"></i> Propósito del Sistema</h4>
+                            <p>Plataforma web unificada que digitaliza el ciclo completo: búsqueda con validación estricta, cotización dinámica, persistencia segura y panel administrativo.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-users" style="color: #a855f7;"></i> Actores Principales</h4>
+                            <p><strong>Turista:</strong> Consulta y reserva habitaciones con cotización multimoneda.<br><strong>Administrador:</strong> Monitorea ocupación, cancela reservas y gestiona el inventario.</p>
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 0.9;">
+                        <img src="../reserva-hotel/semana_7/frontend_turista.png" class="img-preview" alt="Frontend Turista">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: ARQUITECTURA TÉCNICA 4+1 -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 01:15 - 02:45</div>
+                <h2>Arquitectura y Servidor de Aplicaciones</h2>
+                <div class="badge-list" style="justify-content: center;">
+                    <span class="badge">Node.js v20</span>
+                    <span class="badge">Express v5</span>
+                    <span class="badge">SQLite3</span>
+                    <span class="badge">EJS Templates</span>
+                    <span class="badge green">REST API Integration</span>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-server" style="color: #38bdf8;"></i> Servidor de Aplicaciones</h4>
+                            <p>Servidor HTTP en Express (`server.js`) con middleware de sesiones en memoria y control de acceso RBAC para aislamiento de rutas.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-database" style="color: #22c55e;"></i> Persistencia Relacional</h4>
+                            <p>Base de datos SQLite (`database.js`) normalizada en 3FN con tablas `Usuario`, `Hotel`, `Habitacion` y `Reserva` con claves foráneas activas.</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-shield-halved" style="color: #eab308;"></i> Aislamiento Estricto por Rol</h4>
+                            <p>Middleware interceptor global: bloquea el acceso de turistas a `/admin` y redirige administradores al dashboard de control.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-cloud-arrow-down" style="color: #a855f7;"></i> Integración Web Service REST</h4>
+                            <p>Consumo de API de divisas con tolerancia a fallos (`try/catch`), validación de parámetros y degradación elegante a CLP.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: DEMOSTRACIÓN TURISTA & MULTIMONEDA -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 02:45 - 04:15</div>
+                <h2>Demostración en Vivo: Portal Turista</h2>
+                <div class="row">
+                    <div class="col" style="flex: 1.1;">
+                        <img src="../reserva-hotel/semana_7/checkout_page.png" class="img-preview" alt="Checkout Turista">
+                    </div>
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-calendar-check" style="color: #38bdf8;"></i> Búsqueda Validada</h4>
+                            <p>Validación de reglas de negocio: Check-in obligatorio menor a Check-out. Consulta optimizada de habitaciones disponibles.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-coins" style="color: #22c55e;"></i> Conversor Multimoneda</h4>
+                            <p>Petición asíncrona hacia `/api/exchange-rate`: visualización en CLP, USD y EUR en tiempo real sin recargar la página.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-receipt" style="color: #a855f7;"></i> Checkout y Comprobante</h4>
+                            <p>Generación de reserva transaccional con código de confirmación y resumen detallado del huésped.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: DEMOSTRACIÓN ADMINISTRADOR -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 04:15 - 05:45</div>
+                <h2>Demostración en Vivo: Portal Administrador</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-list-check" style="color: #38bdf8;"></i> Monitor Central de Reservas</h4>
+                            <p>Visualización en tiempo real de todas las reservas registradas mediante consultas SQL con uniones relacionales (`JOIN`).</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-ban" style="color: #ef4444;"></i> Cancelación Inmediata</h4>
+                            <p>Acción de cancelación con un solo clic: actualización a estado 'Cancelada' y liberación automática de la habitación.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-bed" style="color: #22c55e;"></i> CRUD de Inventario</h4>
+                            <p>Alta de nuevas habitaciones con número, tipo, capacidad y precio por noche, y eliminación segura de unidades.</p>
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 1.1;">
+                        <img src="../reserva-hotel/semana_5/vista_admin_reservas.jpg" class="img-preview" alt="Panel Administrador">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: METODOLOGÍA SCRUM & TRELLO -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 05:45 - 07:15</div>
+                <h2>Gestión Ágil con Scrum & Tablero Trello</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-rotate" style="color: #38bdf8;"></i> Ciclos de 3 Sprints</h4>
+                            <p><strong>Sprint 1:</strong> Requerimientos & UML (28 SP)<br><strong>Sprint 2:</strong> BD SQLite & Frontend (33 SP)<br><strong>Sprint 3:</strong> API, QA & Despliegue (28 SP)</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-clipboard-check" style="color: #22c55e;"></i> Definition of Done (DoD)</h4>
+                            <p>Código limpio, integración probada, manejo de errores `try/catch`, pruebas funcionales aprobadas y commit en GitHub.</p>
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 1.2;">
+                        <img src="../reserva-hotel/semana_8/evidencia_trello.png" class="img-preview" alt="Tablero Trello">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: PROJECT BURNDOWN CHART & VELOCITY -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 05:45 - 07:15</div>
+                <h2>Project Burndown Chart & Velocidad</h2>
+                <div class="row">
+                    <div class="col" style="flex: 1.3;">
+                        <img src="burndown_chart.png" class="img-preview" alt="Burndown Chart">
+                    </div>
+                    <div class="col">
+                        <div class="metric-card" style="margin-bottom: 15px;">
+                            <div class="metric-value">89 SP</div>
+                            <div class="metric-label">Total Backlog Quemado</div>
+                        </div>
+                        <div class="metric-card" style="margin-bottom: 15px;">
+                            <div class="metric-value">29.7 SP</div>
+                            <div class="metric-label">Velocidad Promedio / Sprint</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">100%</div>
+                            <div class="metric-label">Cumplimiento al Cierre EFT</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: TESTING & NO CONFORMIDADES -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 07:15 - 08:30</div>
+                <h2>Estrategia de QA, Pruebas y No Conformidades</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-vial-circle-check" style="color: #22c55e;"></i> 10 Casos de Prueba Funcionales</h4>
+                            <p>Cobertura integral: Happy Paths (login, reserva, checkout, CRUD) y Edge Cases (fechas invertidas, rutas denegadas, credenciales erróneas).</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-robot" style="color: #38bdf8;"></i> Pruebas Automatizadas</h4>
+                            <p>Script `test_endpoints.js` ejecutado en consola validando redirecciones HTTP 302 y renderizado 200 con 100% de éxito.</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-triangle-exclamation" style="color: #eab308;"></i> Gestión de No Conformidades</h4>
+                            <p>Alineado con normas <strong>ISO 9001 / IEEE / ISTQB</strong> promovidas por el docente: detección, causa raíz y acción correctiva para la integración front-back.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-shield-virus" style="color: #a855f7;"></i> Tolerancia a Fallos Probada</h4>
+                            <p>Resiliencia demostrada ante desconexión de la API externa de tasas de cambio con fallback seguro a moneda local.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: REPOSITORIO GIT Y EVIDENCIAS -->
+            <section data-background-color="#090d16">
+                <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 08:30 - 09:15</div>
+                <h2>Control de Versiones Git & Repositorio</h2>
+                <div class="row">
+                    <div class="col" style="flex: 1.1;">
+                        <img src="../reserva-hotel/semana_7/github_s7.png" class="img-preview" alt="GitHub Repository">
+                    </div>
+                    <div class="col">
+                        <div class="feature-box">
+                            <h4><i class="fa-brands fa-github" style="color: #fff;"></i> Repositorio Público GitHub</h4>
+                            <p><code style="font-size: 0.8em; color: #38bdf8;">https://github.com/D99L/reserva-hotel.git</code></p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-code-commit" style="color: #22c55e;"></i> Trazabilidad Completa</h4>
+                            <p>Commits históricos desde el Sprint 1 hasta el empaquetamiento final de Semana 9, con mensajes descriptivos y branching limpio.</p>
+                        </div>
+                        <div class="feature-box">
+                            <h4><i class="fa-solid fa-file-zipper" style="color: #eab308;"></i> Empaquetamiento Autónomo</h4>
+                            <p>Archivo comprimido `.zip` con códigos front-end, back-end, scripts de base de datos y documentación formal.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: CONCLUSIONES Y REFLEXIÓN -->
+            <section data-background-image="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1920&q=80" data-background-opacity="0.2">
+                <div class="glass-card" style="display: inline-block; max-width: 900px;">
+                    <div class="timer-tag"><i class="fa-solid fa-video"></i> MINUTO 09:15 - 10:00</div>
+                    <h2>Conclusiones y Reflexión Profesional</h2>
+                    <div class="row" style="text-align: left; margin-bottom: 25px;">
+                        <div class="col">
+                            <p style="font-size: 0.9em; line-height: 1.6; color: #cbd5e1;">
+                                <i class="fa-solid fa-check-double" style="color: #22c55e;"></i> <strong>Visión Holística:</strong> La ingeniería de software trasciende la codificación: modelar bajo IEEE 830 y 4+1 previene defectos y reduce costos de retrabajo.<br><br>
+                                <i class="fa-solid fa-check-double" style="color: #22c55e;"></i> <strong>Cultura de Calidad:</strong> La gestión preventiva de No Conformidades (ISO/ISTQB) garantiza soluciones resilientes ante fallos del mundo real.<br><br>
+                                <i class="fa-solid fa-check-double" style="color: #22c55e;"></i> <strong>Impacto Profesional:</strong> Consolidación de competencias clave como futuro Analista Programador Computacional en Duoc UC.
+                            </p>
+                        </div>
+                    </div>
+                    <h3 style="color: var(--primary-light); font-size: 1.3em;">¡Muchas Gracias por su Atención!</h3>
+                    <p style="font-size: 0.8em; color: #94a3b8; margin-top: 10px;">Adolfo Leal Lara &bull; Duoc UC &bull; Docente: Jorge Antonio Canales Soto</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            controls: true,
+            progress: true,
+            center: true
+        });
+    </script>
+</body>
+</html>
